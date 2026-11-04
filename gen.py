@@ -16,6 +16,7 @@ MAPS = "https://www.google.com/maps/search/?api=1&query=118+Ph%C6%B0%C6%A1ng+V%E
 SAME_AS = [  # thêm link Fanpage khi có
     "https://www.tiktok.com/@thodia.bn",
     "https://www.youtube.com/@Thodiabacninh",
+    "https://www.facebook.com/Thodiabacninh99/",
     "https://www.tiktok.com/@bacninhangii",
 ]
 TODAY = "2026-11-04"
@@ -62,17 +63,17 @@ CHANNELS = [
     ("Một Ngày Bắc Ninh", 800_000, None, "Kênh vệ tinh", None, None),
 ]
 
-# Hồ sơ từng kênh trên 3 nền tảng. Số TikTok, YouTube lấy trực tiếp ngày 04/11/2026; Facebook theo số liệu nội bộ tháng 10/2026.
+# Hồ sơ từng kênh trên 3 nền tảng. Số TikTok, YouTube lấy trực tiếp ngày 04/11/2026; Facebook ngày 05/11/2026.
 # tt = (handle TikTok, follower), fb = (link hoặc None, follower), yt = (handle YouTube, người đăng ký), av = ảnh đại diện trong img/kenh
 PROFILES = {
-    "Thổ Địa Bắc Ninh":    dict(tt=("thodia.bn", "203K"), fb=(None, "250K"), yt=("Thodiabacninh", "21,2K"), av="thodia.bn"),
-    "Xoài Trứng Nướng":    dict(tt=("xoaitrungnuong", "309K"), fb=(None, "92K"), yt=("XoàiTrứngNướng", "213K"), av="xoaitrungnuong"),
-    "Su Con Mẹ Xoài":      dict(tt=("suconmexoai", "162K"), fb=(None, "16K"), yt=("SuconmẹXoài", "31,1K"), av="suconmexoai"),
+    "Thổ Địa Bắc Ninh":    dict(tt=("thodia.bn", "203K"), fb=("https://www.facebook.com/Thodiabacninh99/", "246K"), yt=("Thodiabacninh", "21,2K"), av="thodia.bn"),
+    "Xoài Trứng Nướng":    dict(tt=("xoaitrungnuong", "309K"), fb=("https://www.facebook.com/p/Xo%C3%A0i-Tr%E1%BB%A9ng-N%C6%B0%E1%BB%9Bng-61550546369947/", "104K"), yt=("XoàiTrứngNướng", "213K"), av="xoaitrungnuong"),
+    "Su Con Mẹ Xoài":      dict(tt=("suconmexoai", "162K"), fb=("https://www.facebook.com/Suconmexoai/", "31K"), yt=("SuconmẹXoài", "31,1K"), av="suconmexoai"),
     "Mai Mai Bắc Ninh":    dict(tt=("maimaibacninh", "9,3K"), av="maimaibacninh"),
     "Bánh Mỳ Cô Phượng":   dict(tt=("banhmycophuong", "40,1K"), yt=("BánhMỳCôPhượng", "48,3K"), av="banhmycophuong"),
-    "Hương Trố Từ Sơn":    dict(tt=("huongtrotuson", "8,5K"), av="huongtrotuson"),
-    "U50 Bắc Ninh":        dict(tt=("u50bacninh", "27,2K"), fb=(None, "42K"), av="u50bacninh"),
-    "Bắc Ninh Ăn Gì?":     dict(tt=("bacninhangii", "27,7K"), fb=(None, "5,9K"), av="bacninhangii"),
+    "Hương Trố Từ Sơn":    dict(tt=("huongtrotuson", "8,5K"), fb=("https://www.facebook.com/huongtrotuson/", "7,8K"), av="huongtrotuson"),
+    "U50 Bắc Ninh":        dict(tt=("u50bacninh", "27,2K"), fb=("https://www.facebook.com/U50bacninh/", "43K"), av="u50bacninh"),
+    "Bắc Ninh Ăn Gì?":     dict(tt=("bacninhangii", "27,7K"), fb=("https://www.facebook.com/bacninhangi/", "5,5K"), av="bacninhangii"),
     "Quang Châu Ăn Gì":    dict(tt=("quangchauangi", "1,3K"), av="quangchauangi"),
     "Độc Lạ Bắc Ninh":     dict(tt=("doclabacninh", "22K"), av="doclabacninh"),
     "Lang Thang Bắc Ninh": dict(tt=("langthang.bacninh", "20,4K"), av="langthang.bacninh"),
@@ -103,7 +104,7 @@ FAQ = [
     ("Booking review TikTok ở Bắc Ninh giá bao nhiêu?",
      "Tại Vitamin Bắc Ninh, booking lẻ một kênh từ 800.000đ đến 10.000.000đ/video tùy độ lớn của kênh. Kênh lớn nhất là Thổ Địa Bắc Ninh, 6.000.000đ/video. Gói nhiều kênh cùng đăng từ 8.000.000đ (3 kênh) đến 40.000.000đ (11 kênh chính và 4 kênh vệ tinh)."),
     ("Kênh review nào ở Bắc Ninh có nhiều người xem?",
-     "Hệ thống Vitamin Bắc Ninh có các kênh Thổ Địa Bắc Ninh (203K follower TikTok, 250K Facebook), Xoài Trứng Nướng (309K TikTok, 213K YouTube), Su Con Mẹ Xoài (162K TikTok) và U50 Bắc Ninh. Thổ Địa Bắc Ninh có 25 video trên 1 triệu lượt xem, video cao nhất 7,7 triệu lượt xem."),
+     "Hệ thống Vitamin Bắc Ninh có các kênh Thổ Địa Bắc Ninh (203K follower TikTok, 246K Facebook), Xoài Trứng Nướng (309K TikTok, 213K YouTube), Su Con Mẹ Xoài (162K TikTok) và U50 Bắc Ninh. Thổ Địa Bắc Ninh có 25 video trên 1 triệu lượt xem, video cao nhất 7,7 triệu lượt xem."),
     ("Book review có cam kết lượt xem không?",
      "Có, với booking theo gói. Lượt xem cam kết là tổng của tất cả kênh trong gói, tính sau 1 tuần: gói 8 triệu từ 50.000 view, gói 17 triệu từ 300.000 view, gói 25 triệu từ 500.000 view, gói 40 triệu từ 1.000.000 view."),
     ("Video review có bị gỡ sau một thời gian không?",
@@ -347,13 +348,13 @@ def channels_page():
 </div></section>
 <section class="sec"><div class="wrap">
 <div class="feat">
-<article><h3>Thổ Địa Bắc Ninh</h3><p class="big">203K</p><p>follower TikTok · 250K Facebook · 21,2K YouTube. 25 video trên 1 triệu view, cao nhất 7,7 triệu.</p></article>
-<article><h3>Xoài Trứng Nướng</h3><p class="big">309K</p><p>follower TikTok · 213K YouTube (nút bạc) · 92K Facebook.</p></article>
-<article><h3>Su Con Mẹ Xoài</h3><p class="big">162K</p><p>follower TikTok · 31,1K YouTube · 16K Facebook.</p></article>
+<article><h3>Thổ Địa Bắc Ninh</h3><p class="big">203K</p><p>follower TikTok · 246K Facebook · 21,2K YouTube. 25 video trên 1 triệu view, cao nhất 7,7 triệu.</p></article>
+<article><h3>Xoài Trứng Nướng</h3><p class="big">309K</p><p>follower TikTok · 213K YouTube (nút bạc) · 104K Facebook.</p></article>
+<article><h3>Su Con Mẹ Xoài</h3><p class="big">162K</p><p>follower TikTok · 31,1K YouTube · 31K Facebook.</p></article>
 <article><h3>Bánh Mỳ Cô Phượng</h3><p class="big">48,3K</p><p>người đăng ký YouTube · 40,1K follower TikTok.</p></article>
 </div>
 <h2>Danh sách 18 kênh</h2>
-<p class="sub">TikTok và YouTube cập nhật ngày 04/11/2026, Facebook tháng 10/2026. Giá booking lẻ cho 1 video gồm quay, dựng và đăng.</p>
+<p class="sub">Số follower cập nhật ngày 05/11/2026. Giá booking lẻ cho 1 video gồm quay, dựng và đăng.</p>
 <div class="chs">{cards}</div>
 </div></section>
 {CTA}"""
