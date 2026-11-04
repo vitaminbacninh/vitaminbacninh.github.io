@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Sinh website tĩnh Vitamin Bắc Ninh. Chạy: python3 gen.py <thư mục ra>"""
 import json, os, sys, html
+from urllib.parse import quote
 
 DOMAIN = "https://vitaminbacninh.github.io"   # đổi thành tên miền riêng khi có
 BRAND = "Vitamin Bắc Ninh"
@@ -12,8 +13,9 @@ PHONE = "0389 799 192"
 PHONE_INTL = "+84389799192"
 ZALO = "https://zalo.me/0389799192"
 MAPS = "https://www.google.com/maps/search/?api=1&query=118+Ph%C6%B0%C6%A1ng+V%E1%BB%B9+V%C5%A9+Ninh+B%E1%BA%AFc+Ninh"
-SAME_AS = [  # thêm link Fanpage, YouTube, TikTok chính thức khi có
+SAME_AS = [  # thêm link Fanpage khi có
     "https://www.tiktok.com/@thodia.bn",
+    "https://www.youtube.com/@Thodiabacninh",
     "https://www.tiktok.com/@bacninhangii",
 ]
 TODAY = "2026-11-04"
@@ -40,14 +42,14 @@ PACKAGES = [
 
 # tên, giá thấp, giá cao, nhóm, follower (TikTok/Facebook/YouTube) nếu có, link
 CHANNELS = [
-    ("Thổ Địa Bắc Ninh", 6_000_000, None, "Kênh chủ lực", ("203K", "250K", "21K"), "https://www.tiktok.com/@thodia.bn"),
-    ("Xoài Trứng Nướng", 6_000_000, 8_000_000, "Kênh chủ lực", ("309K", "92K", "195K"), None),
-    ("Su Con Mẹ Xoài", 6_000_000, 10_000_000, "Kênh chủ lực", ("163K", "16K", "2,5K"), None),
+    ("Thổ Địa Bắc Ninh", 6_000_000, None, "Kênh chủ lực", None, None),
+    ("Xoài Trứng Nướng", 6_000_000, 8_000_000, "Kênh chủ lực", None, None),
+    ("Su Con Mẹ Xoài", 6_000_000, 10_000_000, "Kênh chủ lực", None, None),
     ("Mai Mai Bắc Ninh", 6_000_000, None, "Kênh chủ lực", None, None),
     ("Bánh Mỳ Cô Phượng", 5_000_000, None, "Kênh chủ lực", None, None),
     ("Hương Trố Từ Sơn", 5_000_000, None, "Kênh khu vực Từ Sơn", None, None),
-    ("U50 Bắc Ninh", 3_000_000, None, "Kênh chủ lực", ("27K", "42K", None), None),
-    ("Bắc Ninh Ăn Gì?", 3_000_000, None, "Kênh ẩm thực", None, "https://www.tiktok.com/@bacninhangii"),
+    ("U50 Bắc Ninh", 3_000_000, None, "Kênh chủ lực", None, None),
+    ("Bắc Ninh Ăn Gì?", 3_000_000, None, "Kênh ẩm thực", None, None),
     ("Quang Châu Ăn Gì", 2_000_000, None, "Kênh khu công nghiệp", None, None),
     ("Thổ Địa Từ Sơn", 2_000_000, None, "Kênh khu vực Từ Sơn", None, None),
     ("Độc Lạ Bắc Ninh", 1_500_000, None, "Kênh hỗ trợ độ phủ", None, None),
@@ -59,6 +61,34 @@ CHANNELS = [
     ("Bắc Ninh Chill", 800_000, None, "Kênh vệ tinh", None, None),
     ("Một Ngày Bắc Ninh", 800_000, None, "Kênh vệ tinh", None, None),
 ]
+
+# Hồ sơ từng kênh trên 3 nền tảng. Số TikTok, YouTube lấy trực tiếp ngày 04/11/2026; Facebook theo số liệu nội bộ tháng 10/2026.
+# tt = (handle TikTok, follower), fb = (link hoặc None, follower), yt = (handle YouTube, người đăng ký), av = ảnh đại diện trong img/kenh
+PROFILES = {
+    "Thổ Địa Bắc Ninh":    dict(tt=("thodia.bn", "203K"), fb=(None, "250K"), yt=("Thodiabacninh", "21,2K"), av="thodia.bn"),
+    "Xoài Trứng Nướng":    dict(tt=("xoaitrungnuong", "309K"), fb=(None, "92K"), yt=("XoàiTrứngNướng", "213K"), av="xoaitrungnuong"),
+    "Su Con Mẹ Xoài":      dict(tt=("suconmexoai", "162K"), fb=(None, "16K"), yt=("SuconmẹXoài", "31,1K"), av="suconmexoai"),
+    "Mai Mai Bắc Ninh":    dict(tt=("maimaibacninh", "9,3K"), av="maimaibacninh"),
+    "Bánh Mỳ Cô Phượng":   dict(tt=("banhmycophuong", "40,1K"), yt=("BánhMỳCôPhượng", "48,3K"), av="banhmycophuong"),
+    "Hương Trố Từ Sơn":    dict(tt=("huongtrotuson", "8,5K"), av="huongtrotuson"),
+    "U50 Bắc Ninh":        dict(tt=("u50bacninh", "27,2K"), fb=(None, "42K"), av="u50bacninh"),
+    "Bắc Ninh Ăn Gì?":     dict(tt=("bacninhangii", "27,7K"), fb=(None, "5,9K"), av="bacninhangii"),
+    "Quang Châu Ăn Gì":    dict(tt=("quangchauangi", "1,3K"), av="quangchauangi"),
+    "Độc Lạ Bắc Ninh":     dict(tt=("doclabacninh", "22K"), av="doclabacninh"),
+    "Lang Thang Bắc Ninh": dict(tt=("langthang.bacninh", "20,4K"), av="langthang.bacninh"),
+    "Người Bắc Ninh Chất": dict(tt=("nguoibacninhchat", "12,3K"), av="nguoibacninhchat"),
+    "La Cà Bắc Ninh":      dict(tt=("lacabacninh7", "1,2K"), av="lacabacninh7"),
+    "Một Ngày Bắc Ninh":   dict(tt=("motngaybacninh", "10,9K"), av="motngaybacninh"),
+}
+
+def links_of(n):
+    """Danh sách (nền tảng, url hoặc None, số follower) của một kênh."""
+    p = PROFILES.get(n, {})
+    out = []
+    if p.get("tt"): out.append(("TikTok", f"https://www.tiktok.com/@{p['tt'][0]}", p["tt"][1]))
+    if p.get("fb"): out.append(("Facebook", p["fb"][0], p["fb"][1]))
+    if p.get("yt"): out.append(("YouTube", "https://www.youtube.com/@" + quote(p["yt"][0]), p["yt"][1]))
+    return out
 
 CLIENTS = [
     ("Ngân hàng, y tế", "MB Bank, Bệnh viện Thu Cúc TCI, Bệnh viện Quốc tế Luxdefa"),
@@ -73,7 +103,7 @@ FAQ = [
     ("Booking review TikTok ở Bắc Ninh giá bao nhiêu?",
      "Tại Vitamin Bắc Ninh, booking lẻ một kênh từ 800.000đ đến 10.000.000đ/video tùy độ lớn của kênh. Kênh lớn nhất là Thổ Địa Bắc Ninh, 6.000.000đ/video. Gói nhiều kênh cùng đăng từ 8.000.000đ (3 kênh) đến 40.000.000đ (11 kênh chính và 4 kênh vệ tinh)."),
     ("Kênh review nào ở Bắc Ninh có nhiều người xem?",
-     "Hệ thống Vitamin Bắc Ninh có các kênh Thổ Địa Bắc Ninh (203K follower TikTok, 250K Facebook), Xoài Trứng Nướng (309K TikTok), Su Con Mẹ Xoài (163K TikTok) và U50 Bắc Ninh. Thổ Địa Bắc Ninh có 25 video trên 1 triệu lượt xem, video cao nhất 7,7 triệu lượt xem."),
+     "Hệ thống Vitamin Bắc Ninh có các kênh Thổ Địa Bắc Ninh (203K follower TikTok, 250K Facebook), Xoài Trứng Nướng (309K TikTok, 213K YouTube), Su Con Mẹ Xoài (162K TikTok) và U50 Bắc Ninh. Thổ Địa Bắc Ninh có 25 video trên 1 triệu lượt xem, video cao nhất 7,7 triệu lượt xem."),
     ("Book review có cam kết lượt xem không?",
      "Có, với booking theo gói. Lượt xem cam kết là tổng của tất cả kênh trong gói, tính sau 1 tuần: gói 8 triệu từ 50.000 view, gói 17 triệu từ 300.000 view, gói 25 triệu từ 500.000 view, gói 40 triệu từ 1.000.000 view."),
     ("Video review có bị gỡ sau một thời gian không?",
@@ -181,6 +211,14 @@ CTA = f"""<section class="cta"><div class="wrap cta-in">
 <div class="cta-act"><a class="btn" href="{ZALO}" rel="noopener">Nhắn Zalo {PHONE}</a><a class="btn btn-ghost" href="tel:{PHONE_INTL}">Gọi ngay</a></div>
 </div></section>"""
 
+def avatar_strip():
+    top = ["Thổ Địa Bắc Ninh", "Xoài Trứng Nướng", "Su Con Mẹ Xoài", "Bánh Mỳ Cô Phượng", "Bắc Ninh Ăn Gì?", "U50 Bắc Ninh", "Độc Lạ Bắc Ninh", "Lang Thang Bắc Ninh"]
+    li = []
+    for n in top:
+        p = PROFILES[n]
+        li.append(f'<li><a href="https://www.tiktok.com/@{p["tt"][0]}" rel="noopener" target="_blank"><img class="av" src="img/kenh/{p["av"]}.jpg" width="72" height="72" loading="lazy" alt="Kênh {E(n)}"><b>{E(n)}</b><span>{p["tt"][1]} TikTok</span></a></li>')
+    return f'<ul class="strip">{"".join(li)}</ul>'
+
 def index_page(full=True):
     body = f"""<section class="hero"><div class="wrap hero-in">
 <div class="hero-copy">
@@ -207,19 +245,26 @@ def index_page(full=True):
 <article><h3>Xây kênh TikTok và video quảng cáo</h3><p>Xây kênh TikTok cho doanh nghiệp, sản xuất video quảng cáo (TVC). Báo giá theo yêu cầu.</p><a href="lien-he.html">Liên hệ báo giá</a></article>
 </div></div></section>
 
-<section class="sec alt" id="goi"><div class="wrap">
+<section class="sec alt"><div class="wrap">
+<h2>Hệ thống kênh</h2>
+<p class="sub">Một số kênh review trong hệ thống Vitamin Bắc Ninh trên TikTok, Facebook, YouTube.</p>
+{avatar_strip()}
+<p><a href="he-thong-kenh.html">Xem đủ 18 kênh và số follower</a></p>
+</div></section>
+
+<section class="sec" id="goi"><div class="wrap">
 <h2>Gói booking theo kênh</h2>
 <p class="sub">Lượt xem cam kết là tổng của tất cả kênh trong gói, tính sau 1 tuần.</p>
 {pkg_cards()}
 </div></section>
 
-<section class="sec"><div class="wrap">
+<section class="sec alt"><div class="wrap">
 <h2>Đã hợp tác</h2>
 <p class="brands">MB Bank · VinFast · Bệnh viện Thu Cúc TCI · Atino · KRIK · Xiaomi · Jollibee · Manwah · Viettel Construction · Lock&amp;Lock · Kinh Đô · Bia Hà Nội</p>
 <p><a href="khach-hang.html">Xem theo lĩnh vực</a></p>
 </div></section>
 
-<section class="sec alt"><div class="wrap narrow">
+<section class="sec"><div class="wrap narrow">
 <h2>Câu hỏi thường gặp</h2>
 {faq_html()}
 </div></section>
@@ -263,33 +308,57 @@ def price_page():
                 "Bảng giá booking review TikTok tại Bắc Ninh: lẻ từ 800.000đ/video, Thổ Địa Bắc Ninh 6 triệu/video; gói 3 kênh 8 triệu, 7 kênh 25 triệu, 11 kênh 40 triệu, cam kết view sau 1 tuần.",
                 body, [offers])
 
+def initials(n):
+    w = [x for x in n.replace("?", "").split() if x]
+    return (w[0][0] + w[-1][0]).upper() if len(w) > 1 else n[:2].upper()
+
+def chan_card(n, lo, hi, g):
+    p = PROFILES.get(n, {})
+    if p.get("av"):
+        av = f'<img class="av" src="img/kenh/{p["av"]}.jpg" width="72" height="72" loading="lazy" alt="Ảnh đại diện kênh {E(n)}">'
+    else:
+        av = f'<span class="av av-ph" aria-hidden="true">{E(initials(n))}</span>'
+    plats = []
+    for plat, url, cnt in links_of(n):
+        cls = {"TikTok": "tt", "Facebook": "fb", "YouTube": "yt"}[plat]
+        inner = f'<span class="pl {cls}">{plat}</span><b>{cnt}</b>'
+        plats.append(f'<li><a href="{url}" rel="noopener" target="_blank">{inner}</a></li>' if url else f'<li><span class="nolink">{inner}</span></li>')
+    plat_html = f'<ul class="plats">{"".join(plats)}</ul>' if plats else '<p class="soon">Kênh mới, đang cập nhật</p>'
+    handle = f'<p class="handle">@{E(p["tt"][0])}</p>' if p.get("tt") else ""
+    return f"""<article class="ch">
+<div class="ch-top">{av}<div><h3>{E(n)}</h3>{handle}<p class="grp">{E(g)}</p></div></div>
+{plat_html}
+<p class="ch-price">{price_range(lo, hi)}<span> / video</span></p>
+</article>"""
+
 def channels_page():
-    rows = []
-    for i, (n, lo, hi, g, f, l) in enumerate(CHANNELS, 1):
-        name = f'<a href="{l}" rel="noopener">{E(n)}</a>' if l else E(n)
-        tk, fb, yt = f if f else ("", "", "")
-        rows.append(f"<tr><td>{name}</td><td>{E(g)}</td><td class='num'>{tk or '–'}</td><td class='num'>{fb or '–'}</td><td class='num'>{yt or '–'}</td><td class='num'>{price_range(lo, hi)}</td></tr>")
-    il = {"@context": "https://schema.org", "@type": "ItemList", "name": "Hệ thống kênh review Vitamin Bắc Ninh",
-          "itemListElement": [{"@type": "ListItem", "position": i, "name": n} for i, (n, *_r) in enumerate(CHANNELS, 1)]}
+    cards = "".join(chan_card(n, lo, hi, g) for (n, lo, hi, g, f, l) in CHANNELS)
+    items = []
+    for i, (n, *_r) in enumerate(CHANNELS, 1):
+        it = {"@type": "ListItem", "position": i, "name": n}
+        urls = [u for _, u, _c in links_of(n) if u]
+        if urls: it["url"] = urls[0]
+        items.append(it)
+    il = {"@context": "https://schema.org", "@type": "ItemList", "name": "Hệ thống kênh review Vitamin Bắc Ninh", "itemListElement": items}
     body = f"""<section class="pagehead"><div class="wrap">
 <p class="eyebrow">18 kênh · TikTok, Facebook, YouTube</p>
 <h1>Hệ thống kênh review Bắc Ninh</h1>
-<p class="lead">Các kênh review địa phương do Vitamin Bắc Ninh vận hành, phủ TP Bắc Ninh, Từ Sơn, Quế Võ và khu công nghiệp Quang Châu. Từ tháng 11/2026 mở thêm kênh Việt Yên, Tiên Du, Yên Phong.</p>
+<p class="lead">Các kênh review địa phương do Vitamin Bắc Ninh vận hành, phủ TP Bắc Ninh, Từ Sơn, Quế Võ và khu công nghiệp Quang Châu. Bấm vào từng nền tảng để xem kênh.</p>
 </div></section>
 <section class="sec"><div class="wrap">
 <div class="feat">
-<article><h3>Thổ Địa Bắc Ninh</h3><p class="big">203K</p><p>follower TikTok · 250K Facebook · 21K YouTube. 25 video trên 1 triệu view, cao nhất 7,7 triệu.</p></article>
-<article><h3>Xoài Trứng Nướng</h3><p class="big">309K</p><p>follower TikTok · 92K Facebook · 195K YouTube.</p></article>
-<article><h3>Su Con Mẹ Xoài</h3><p class="big">163K</p><p>follower TikTok · 16K Facebook · 2,5K YouTube.</p></article>
-<article><h3>U50 Bắc Ninh</h3><p class="big">27K</p><p>follower TikTok · 42K Facebook. Tiếp cận khách trung niên.</p></article>
+<article><h3>Thổ Địa Bắc Ninh</h3><p class="big">203K</p><p>follower TikTok · 250K Facebook · 21,2K YouTube. 25 video trên 1 triệu view, cao nhất 7,7 triệu.</p></article>
+<article><h3>Xoài Trứng Nướng</h3><p class="big">309K</p><p>follower TikTok · 213K YouTube (nút bạc) · 92K Facebook.</p></article>
+<article><h3>Su Con Mẹ Xoài</h3><p class="big">162K</p><p>follower TikTok · 31,1K YouTube · 16K Facebook.</p></article>
+<article><h3>Bánh Mỳ Cô Phượng</h3><p class="big">48,3K</p><p>người đăng ký YouTube · 40,1K follower TikTok.</p></article>
 </div>
 <h2>Danh sách 18 kênh</h2>
-<p class="sub">Follower cập nhật tháng 10/2026. Dấu – là chưa cập nhật.</p>
-<div class="tbl"><table><thead><tr><th>Kênh</th><th>Nhóm</th><th class="num">TikTok</th><th class="num">Facebook</th><th class="num">YouTube</th><th class="num">Giá / video</th></tr></thead><tbody>{''.join(rows)}</tbody></table></div>
+<p class="sub">TikTok và YouTube cập nhật ngày 04/11/2026, Facebook tháng 10/2026. Giá booking lẻ cho 1 video gồm quay, dựng và đăng.</p>
+<div class="chs">{cards}</div>
 </div></section>
 {CTA}"""
     return page("he-thong-kenh.html", "Danh sách kênh review TikTok Bắc Ninh | Vitamin Bắc Ninh",
-                "18 kênh review Bắc Ninh của Vitamin Bắc Ninh: Thổ Địa Bắc Ninh 203K follower TikTok, Xoài Trứng Nướng 309K, Su Con Mẹ Xoài 163K, U50 Bắc Ninh, Quang Châu Ăn Gì và các kênh khu vực.",
+                "18 kênh review Bắc Ninh của Vitamin Bắc Ninh trên TikTok, Facebook, YouTube: Thổ Địa Bắc Ninh 203K follower TikTok, Xoài Trứng Nướng 309K TikTok và 213K YouTube, Su Con Mẹ Xoài 162K, Bánh Mỳ Cô Phượng, U50 Bắc Ninh.",
                 body, [il])
 
 def clients_page():
