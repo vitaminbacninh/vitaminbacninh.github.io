@@ -161,3 +161,13 @@ tbody tr:last-child td{border-bottom:0}
 .svc3{grid-template-columns:repeat(3,minmax(0,1fr))}
 @media (max-width:820px){.svc3{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:520px){.svc3{grid-template-columns:1fr}}
+.jobs-grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr))}
+.jobs-grid .job{align-content:start}
+.jobs-grid .job>p:last-child{margin-top:auto}
+.kinds{display:flex;flex-wrap:wrap;gap:6px}
+.kinds span{font-size:.78rem;font-weight:600;padding:.2em .65em;border-radius:999px;background:color-mix(in srgb,var(--citrus) 16%,transparent);color:var(--citrus-ink)}
+.job-apply{font-weight:600}
+.apply fieldset{border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:0;display:grid;gap:8px}
+.apply legend{font-weight:600;font-size:.95rem;padding:0 4px}
+.apply .chk{display:flex;align-items:center;gap:10px;font-weight:400}
+.apply .chk input{width:18px;height:18px;flex:none;accent-color:var(--citrus)}
