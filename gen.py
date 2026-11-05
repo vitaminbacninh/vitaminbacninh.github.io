@@ -80,6 +80,10 @@ PROFILES = {
     "Người Bắc Ninh Chất": dict(tt=("nguoibacninhchat", "12,3K"), av="nguoibacninhchat"),
     "La Cà Bắc Ninh":      dict(tt=("lacabacninh7", "1,2K"), av="lacabacninh7"),
     "Một Ngày Bắc Ninh":   dict(tt=("motngaybacninh", "10,9K"), av="motngaybacninh"),
+    "Thổ Địa Từ Sơn":      dict(av="thodiatuson"),
+    "Thổ Địa Quế Võ":      dict(av="thodiaquevo"),
+    "Bắc Ninh Đi Đâu?":    dict(av="bacninhdidau"),
+    "Bắc Ninh Chill":      dict(av="bacninhchill"),
 }
 
 def links_of(n):
