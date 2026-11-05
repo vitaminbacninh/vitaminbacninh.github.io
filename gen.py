@@ -12,6 +12,7 @@ STREET = "Số 118 Phương Vỹ, phường Vũ Ninh"
 PHONE = "0389 799 192"
 PHONE_INTL = "+84389799192"
 ZALO = "https://zalo.me/0389799192"
+EMAIL = "thodia.bn99@gmail.com"   # email nhận hồ sơ ứng tuyển
 MAPS = "https://www.google.com/maps/search/?api=1&query=118+Ph%C6%B0%C6%A1ng+V%E1%BB%B9+V%C5%A9+Ninh+B%E1%BA%AFc+Ninh"
 SAME_AS = [  # thêm link Fanpage khi có
     "https://www.tiktok.com/@thodia.bn",
@@ -19,7 +20,7 @@ SAME_AS = [  # thêm link Fanpage khi có
     "https://www.facebook.com/Thodiabacninh99/",
     "https://www.tiktok.com/@bacninhangii",
 ]
-TODAY = "2026-11-04"
+TODAY = "2026-11-05"
 
 E = html.escape
 
@@ -104,6 +105,30 @@ CLIENTS = [
     ("Khác", "MadeMade và nhiều doanh nghiệp Trung Quốc tại Bắc Ninh"),
 ]
 
+# Đối tác hiển thị dạng lưới logo. Có file img/doitac/<slug>.png (hoặc .svg) thì hiện logo, chưa có thì hiện ô tên.
+# Chỉ thêm logo khi nhãn hàng đồng ý cho dùng logo trong hồ sơ năng lực.
+PARTNERS = [
+    ("Ngân hàng, y tế", [("MB Bank", "mbbank"), ("Bệnh viện Thu Cúc TCI", "thucuc"), ("Bệnh viện Quốc tế Luxdefa", "luxdefa")]),
+    ("Ô tô, điện tử, gia dụng", [("VinFast", "vinfast"), ("Xiaomi", "xiaomi"), ("Hoàng Hà Mobile", "hoangha"), ("Honor", "honor"), ("Lock&Lock", "locknlock"), ("Kingsport", "kingsport")]),
+    ("Thời trang, mỹ phẩm", [("Atino", "atino"), ("KRIK", "krik"), ("Cocolux", "cocolux"), ("F5 Sport", "f5sport")]),
+    ("Ẩm thực, đồ uống", [("Manwah", "manwah"), ("Jollibee", "jollibee"), ("Bia Hà Nội", "biahanoi"), ("Kinh Đô", "kinhdo"), ("Aice", "aice")]),
+    ("Bất động sản, xây dựng", [("Viettel Construction", "viettelconstruction"), ("Ecolife Yên Trung", "ecolife")]),
+    ("Khác", [("MadeMade", "mademade")]),
+]
+HOME_PARTNERS = ["mbbank", "vinfast", "thucuc", "atino", "krik", "xiaomi", "jollibee", "manwah", "viettelconstruction", "locknlock", "kinhdo", "biahanoi"]
+
+def logo_tile(name, slug):
+    here = os.path.dirname(os.path.abspath(__file__))
+    for ext in ("svg", "png", "webp", "jpg"):
+        if os.path.exists(os.path.join(here, "img", "doitac", f"{slug}.{ext}")):
+            return f'<li class="lg"><img src="img/doitac/{slug}.{ext}" alt="{E(name)}" loading="lazy"></li>'
+    return f'<li class="lg lg-txt"><span>{E(name)}</span></li>'
+
+def logo_wall(slugs=None):
+    allp = {s: n for _, items in PARTNERS for n, s in items}
+    pick = slugs or list(allp)
+    return '<ul class="logos">' + "".join(logo_tile(allp[s], s) for s in pick) + "</ul>"
+
 FAQ = [
     ("Booking review TikTok ở Bắc Ninh giá bao nhiêu?",
      "Tại Vitamin Bắc Ninh, booking lẻ một kênh từ 800.000đ đến 10.000.000đ/video tùy độ lớn của kênh. Kênh lớn nhất là Thổ Địa Bắc Ninh, 6.000.000đ/video. Gói nhiều kênh cùng đăng từ 8.000.000đ (3 kênh) đến 40.000.000đ (11 kênh chính và 4 kênh vệ tinh)."),
@@ -146,7 +171,7 @@ def org_ld():
         "sameAs": SAME_AS,
     }
 
-NAV = [("index.html", "Trang chủ"), ("bang-gia.html", "Bảng giá"), ("he-thong-kenh.html", "Hệ thống kênh"), ("khach-hang.html", "Khách hàng"), ("lien-he.html", "Liên hệ")]
+NAV = [("index.html", "Trang chủ"), ("bang-gia.html", "Bảng giá"), ("he-thong-kenh.html", "Hệ thống kênh"), ("khach-hang.html", "Khách hàng"), ("tuyen-dung.html", "Tuyển dụng"), ("lien-he.html", "Liên hệ")]
 
 def page(fname, title, desc, body, extra_ld=None, full=True):
     canon = DOMAIN + "/" + ("" if fname == "index.html" else fname)
@@ -170,7 +195,7 @@ def page(fname, title, desc, body, extra_ld=None, full=True):
 <footer class="foot"><div class="wrap foot-in">
 <div><p class="logo">Vitamin <b>Bắc Ninh</b></p><p>Hệ thống 18 kênh review TikTok, Facebook, YouTube tại Bắc Ninh.</p></div>
 <div><p><b>{E(LEGAL)}</b></p><p>MST: {MST}</p><p>{E(ADDR)}</p><p>Hotline/Zalo: <a href="tel:{PHONE_INTL}">{PHONE}</a></p></div>
-<div><p><b>Dịch vụ</b></p><p><a href="bang-gia.html">Booking review Bắc Ninh</a></p><p><a href="bang-gia.html#goi">Gói truyền thông nhiều kênh</a></p><p><a href="he-thong-kenh.html">Danh sách kênh review</a></p></div>
+<div><p><b>Dịch vụ</b></p><p><a href="bang-gia.html">Booking review Bắc Ninh</a></p><p><a href="bang-gia.html#goi">Gói truyền thông nhiều kênh</a></p><p><a href="he-thong-kenh.html">Danh sách kênh review</a></p><p><a href="tuyen-dung.html">Tuyển dụng</a></p></div>
 </div><p class="wrap fine">Cập nhật {TODAY[8:10]}/{TODAY[5:7]}/{TODAY[:4]}. Bảng giá chưa gồm VAT.</p></footer>"""
     if full:
         return f"""<!doctype html>
@@ -265,8 +290,8 @@ def index_page(full=True):
 
 <section class="sec alt"><div class="wrap">
 <h2>Đã hợp tác</h2>
-<p class="brands">MB Bank · VinFast · Bệnh viện Thu Cúc TCI · Atino · KRIK · Xiaomi · Jollibee · Manwah · Viettel Construction · Lock&amp;Lock · Kinh Đô · Bia Hà Nội</p>
-<p><a href="khach-hang.html">Xem theo lĩnh vực</a></p>
+{logo_wall(HOME_PARTNERS)}
+<p><a href="khach-hang.html">Xem tất cả đối tác theo lĩnh vực</a></p>
 </div></section>
 
 <section class="sec"><div class="wrap narrow">
@@ -367,7 +392,7 @@ def channels_page():
                 body, [il])
 
 def clients_page():
-    rows = "".join(f"<tr><td>{E(a)}</td><td>{E(b)}</td></tr>" for a, b in CLIENTS)
+    groups = "".join(f'<div class="lg-group"><h3>{E(g)}</h3><ul class="logos">' + "".join(logo_tile(n, sl) for n, sl in items) + "</ul></div>" for g, items in PARTNERS)
     body = f"""<section class="pagehead"><div class="wrap">
 <p class="eyebrow">500+ đối tác</p>
 <h1>Khách hàng của Vitamin Bắc Ninh</h1>
@@ -375,7 +400,7 @@ def clients_page():
 </div></section>
 <section class="sec"><div class="wrap">
 <h2>Nhãn hàng theo lĩnh vực</h2>
-<div class="tbl"><table><thead><tr><th>Lĩnh vực</th><th>Nhãn hàng đã hợp tác</th></tr></thead><tbody>{rows}</tbody></table></div>
+{groups}
 </div></section>
 <section class="sec alt"><div class="wrap">
 <h2>Một số chiến dịch</h2>
@@ -389,6 +414,109 @@ def clients_page():
     return page("khach-hang.html", "Khách hàng và chiến dịch | Vitamin Bắc Ninh",
                 "Vitamin Bắc Ninh đã làm video review cho MB Bank, VinFast, Bệnh viện Thu Cúc TCI, Atino, KRIK, Jollibee, Manwah và hơn 500 quán ăn, cửa hàng tại Bắc Ninh.",
                 body)
+
+JOBS = [
+    dict(id="video-editor", title="Video Editor (dựng video TikTok)", type="FULL_TIME", salary=10_000_000,
+         pay="Lương cứng 10.000.000đ/tháng cho 60 video. Từ video thứ 61 tính thêm 200.000đ/video. Video dạng TVC tính riêng 500.000đ/video, không tính vào định mức. Đóng BHXH, BHYT, BHTN.",
+         summary="Dựng video review quán ăn, đời sống cho khoảng 4 kênh trong hệ thống, 60 video/tháng, dài 30 giây đến 2 phút. Cảnh quay có sẵn, không phải đi quay.",
+         tasks=["Dựng video từ cảnh quay có sẵn, ghép voice AI theo kịch bản", "Làm hook 3 giây đầu, phụ đề, chữ giá và địa chỉ, nhạc nền, ảnh bìa", "Kiểm tra giá, tên quán, địa chỉ khớp brief trước khi nộp", "Sửa theo góp ý của quản lý và khách, nộp đúng lịch đăng"],
+         req=["Thành thạo CapCut PC hoặc Premiere", "Đã dựng video dọc 9:16 cho TikTok, Reels hoặc Shorts, có link sản phẩm", "Hiểu nhịp TikTok: hook ngay giây đầu, cắt gọn", "Cẩn thận với chữ và số, nộp đúng hạn"],
+         trial="Thử việc 1 tháng trả theo sản phẩm (100.000đ đến 500.000đ/video tùy loại). Đạt yêu cầu thì ký hợp đồng lao động từ tháng thứ hai.",
+         apply="Gửi CV và 3 đến 5 link video đã dựng. Vòng 2 là bài test dựng 1 video trong 48 giờ."),
+    dict(id="content", title="Content Creator (kịch bản video review)", type="FULL_TIME", salary=None,
+         pay="Thu nhập thỏa thuận theo năng lực, trao đổi khi phỏng vấn.",
+         summary="Lên ý tưởng và viết kịch bản video review quán ăn, cửa hàng cho hệ thống kênh, phối hợp với người quay và editor. Nhận cả người mới, được kèm cặp từ đầu.",
+         tasks=["Tìm quán, chủ đề, xu hướng phù hợp từng kênh", "Viết kịch bản video ngắn: hook, nội dung, lời kêu gọi", "Đi cùng KOL hoặc người quay khi cần, ghi chú thông tin quán", "Theo dõi view, bình luận để rút kinh nghiệm cho video sau"],
+         req=["Thích ăn uống, khám phá Bắc Ninh, xem TikTok hằng ngày", "Viết tiếng Việt mạch lạc, không sai chính tả", "Chủ động, chịu khó, học nhanh", "Chưa có kinh nghiệm vẫn ứng tuyển được"],
+         trial="Có giai đoạn thử việc, chi tiết trao đổi khi phỏng vấn.",
+         apply="Gửi CV và 1 đến 2 ý tưởng video review cho một quán ở Bắc Ninh mà bạn thích."),
+]
+
+KOL_BENEFITS = [
+    ("Bảo trợ bởi MCN của TikTok", "Vitamin là MCN chính thức của TikTok, hỗ trợ bạn làm việc trực tiếp với nền tảng."),
+    ("Job từ nhãn hàng lớn", "Kênh làm tốt được giới thiệu job từ các nhãn hàng Vitamin đang hợp tác."),
+    ("Báo cáo và định hướng hằng tháng", "Nhận báo cáo số liệu kênh và định hướng nội dung mỗi tháng."),
+    ("Sự kiện TikTok và MCN", "Tham gia các hoạt động, sự kiện của TikTok và của MCN."),
+    ("Lo giấy tờ, hợp đồng", "Vitamin lo hợp đồng với nhãn hàng, bạn tập trung làm nội dung."),
+    ("Hỗ trợ thuế", "Vitamin hỗ trợ kê khai, đóng thuế thu nhập từ job theo quy định."),
+]
+
+def job_ld(j):
+    d = {"@context": "https://schema.org", "@type": "JobPosting", "title": j["title"],
+         "description": "<p>" + E(j["summary"]) + "</p><ul>" + "".join(f"<li>{E(t)}</li>" for t in j["tasks"]) + "</ul><p>" + E(j["pay"]) + "</p>",
+         "datePosted": TODAY, "validThrough": "2026-12-31T23:59", "employmentType": j["type"],
+         "hiringOrganization": {"@type": "Organization", "name": LEGAL, "sameAs": DOMAIN},
+         "jobLocation": {"@type": "Place", "address": {"@type": "PostalAddress", "streetAddress": STREET, "addressLocality": "Bắc Ninh", "addressRegion": "Bắc Ninh", "addressCountry": "VN"}},
+         "directApply": True, "url": f"{DOMAIN}/tuyen-dung.html#{j['id']}"}
+    if j["salary"]:
+        d["baseSalary"] = {"@type": "MonetaryAmount", "currency": "VND", "value": {"@type": "QuantitativeValue", "value": j["salary"], "unitText": "MONTH"}}
+    return d
+
+def careers_page():
+    jobs = "".join(f"""<article class="job" id="{j['id']}">
+<h3>{E(j['title'])}</h3>
+<p class="job-meta">Toàn thời gian · TP Bắc Ninh</p>
+<p>{E(j['summary'])}</p>
+<div class="job-cols"><div><h4>Công việc</h4><ul class="list">{''.join(f'<li>{E(t)}</li>' for t in j['tasks'])}</ul></div>
+<div><h4>Yêu cầu</h4><ul class="list">{''.join(f'<li>{E(t)}</li>' for t in j['req'])}</ul></div></div>
+<p class="job-pay"><b>Thu nhập:</b> {E(j['pay'])}</p>
+<p class="meta">{E(j['trial'])} {E(j['apply'])}</p>
+<p><a class="btn" href="#ung-tuyen" data-pos="{E(j['title'])}">Ứng tuyển vị trí này</a></p>
+</article>""" for j in JOBS)
+    kol = "".join(f"<article><h3>{E(t)}</h3><p>{E(d)}</p></article>" for t, d in KOL_BENEFITS)
+    opts = "".join(f"<option>{E(j['title'])}</option>" for j in JOBS) + "<option>Creator/KOL gia nhập MCN</option><option>Vị trí khác</option>"
+    body = f"""<section class="pagehead"><div class="wrap">
+<p class="eyebrow">Tuyển dụng</p>
+<h1>Làm việc cùng Vitamin Bắc Ninh</h1>
+<p class="lead">Đội ngũ vận hành 18 kênh review lớn nhất Bắc Ninh, làm nội dung cho quán ăn địa phương và các nhãn hàng như MB Bank, VinFast, Atino. Văn phòng tại TP Bắc Ninh.</p>
+</div></section>
+<section class="sec"><div class="wrap">
+<h2>Vị trí đang tuyển</h2>
+<div class="jobs">{jobs}</div>
+</div></section>
+<section class="sec alt" id="kol"><div class="wrap">
+<h2>Creator, KOL muốn gia nhập MCN</h2>
+<p class="sub">Bạn đã có kênh TikTok về ăn uống, đời sống ở Bắc Ninh và lân cận? Gia nhập hệ thống Vitamin để được:</p>
+<div class="svc svc3">{kol}</div>
+<p style="margin-top:20px"><a class="btn" href="#ung-tuyen" data-pos="Creator/KOL gia nhập MCN">Đăng ký gia nhập</a></p>
+</div></section>
+<section class="sec" id="ung-tuyen"><div class="wrap narrow">
+<h2>Gửi hồ sơ</h2>
+<p class="sub">Điền thông tin rồi chọn cách gửi. Bộ phận tuyển dụng phản hồi trong 2 ngày làm việc.</p>
+<form class="apply" id="apply" novalidate>
+<label>Họ và tên<input name="ten" required autocomplete="name"></label>
+<label>Số điện thoại / Zalo<input name="sdt" required inputmode="tel" autocomplete="tel"></label>
+<label>Vị trí ứng tuyển<select name="vitri">{opts}</select></label>
+<label>Link CV, sản phẩm hoặc kênh TikTok<input name="link" inputmode="url" placeholder="Link Google Drive, TikTok, YouTube..."></label>
+<label>Giới thiệu ngắn<textarea name="gioithieu" rows="4" placeholder="Kinh nghiệm, nơi ở, thời gian có thể đi làm..."></textarea></label>
+<p class="err" id="apply-err" role="alert" hidden>Vui lòng điền họ tên và số điện thoại.</p>
+<div class="apply-act"><button type="submit" class="btn" value="mail">Gửi qua email</button><button type="submit" class="btn btn-ghost" value="zalo">Sao chép và gửi qua Zalo</button></div>
+<p class="meta" id="apply-ok" role="status" hidden>Đã sao chép hồ sơ. Dán vào khung chat Zalo vừa mở rồi bấm gửi.</p>
+<p class="meta">Hoặc gửi trực tiếp: Zalo <a href="{ZALO}" rel="noopener">{PHONE}</a> · Email <a href="mailto:{EMAIL}">{EMAIL}</a></p>
+</form>
+</div></section>
+<script>
+(function(){{
+  var f=document.getElementById('apply'), sel=f.querySelector('select');
+  document.querySelectorAll('[data-pos]').forEach(function(a){{a.addEventListener('click',function(){{sel.value=a.getAttribute('data-pos');}});}});
+  f.addEventListener('submit',function(e){{
+    e.preventDefault();
+    var d=new FormData(f), how=(e.submitter&&e.submitter.value)||'mail';
+    if(!d.get('ten').trim()||!d.get('sdt').trim()){{document.getElementById('apply-err').hidden=false;return;}}
+    document.getElementById('apply-err').hidden=true;
+    var txt='ỨNG TUYỂN: '+d.get('vitri')+'\\nHọ tên: '+d.get('ten')+'\\nSĐT/Zalo: '+d.get('sdt')+'\\nLink: '+(d.get('link')||'-')+'\\nGiới thiệu: '+(d.get('gioithieu')||'-');
+    if(how==='zalo'){{
+      var done=function(){{document.getElementById('apply-ok').hidden=false;window.open('{ZALO}','_blank','noopener');}};
+      try{{navigator.clipboard.writeText(txt).then(done,done);}}catch(_){{done();}}
+    }} else {{
+      location.href='mailto:{EMAIL}?subject='+encodeURIComponent('Ứng tuyển '+d.get('vitri')+' - '+d.get('ten'))+'&body='+encodeURIComponent(txt);
+    }}
+  }});
+}})();
+</script>"""
+    return page("tuyen-dung.html", "Tuyển dụng Video Editor, Content Creator tại Bắc Ninh | Vitamin Bắc Ninh",
+                "Vitamin Bắc Ninh tuyển Video Editor (lương cứng 10 triệu/60 video, vượt định mức 200.000đ/video) và Content Creator tại TP Bắc Ninh. Nhận Creator, KOL gia nhập MCN TikTok.",
+                body, [job_ld(j) for j in JOBS])
 
 def contact_page():
     body = f"""<section class="pagehead"><div class="wrap">
@@ -418,12 +546,12 @@ def llms_txt():
     lines += ["", "## Booking lẻ từng kênh (giá/video)"]
     for (n, lo, hi, g, f, l) in CHANNELS:
         lines.append(f"- {n}: {price_range(lo, hi)}")
-    lines += ["", "## Trang", f"- [Bảng giá]({DOMAIN}/bang-gia.html)", f"- [Hệ thống kênh]({DOMAIN}/he-thong-kenh.html)", f"- [Khách hàng]({DOMAIN}/khach-hang.html)", f"- [Liên hệ]({DOMAIN}/lien-he.html)", ""]
+    lines += ["", "## Trang", f"- [Bảng giá]({DOMAIN}/bang-gia.html)", f"- [Hệ thống kênh]({DOMAIN}/he-thong-kenh.html)", f"- [Khách hàng]({DOMAIN}/khach-hang.html)", f"- [Tuyển dụng]({DOMAIN}/tuyen-dung.html)", f"- [Liên hệ]({DOMAIN}/lien-he.html)", ""]
     return "\n".join(lines)
 
 def main(out):
     os.makedirs(out, exist_ok=True)
-    pages = {"index.html": index_page(), "bang-gia.html": price_page(), "he-thong-kenh.html": channels_page(), "khach-hang.html": clients_page(), "lien-he.html": contact_page()}
+    pages = {"index.html": index_page(), "bang-gia.html": price_page(), "he-thong-kenh.html": channels_page(), "khach-hang.html": clients_page(), "tuyen-dung.html": careers_page(), "lien-he.html": contact_page()}
     for k, v in pages.items():
         open(os.path.join(out, k), "w", encoding="utf-8").write(v)
     open(os.path.join(out, "robots.txt"), "w").write(f"User-agent: *\nAllow: /\n\nSitemap: {DOMAIN}/sitemap.xml\n")

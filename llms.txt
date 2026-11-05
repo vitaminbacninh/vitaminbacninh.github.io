@@ -32,4 +32,5 @@
 - [Bảng giá](https://vitaminbacninh.github.io/bang-gia.html)
 - [Hệ thống kênh](https://vitaminbacninh.github.io/he-thong-kenh.html)
 - [Khách hàng](https://vitaminbacninh.github.io/khach-hang.html)
+- [Tuyển dụng](https://vitaminbacninh.github.io/tuyen-dung.html)
 - [Liên hệ](https://vitaminbacninh.github.io/lien-he.html)

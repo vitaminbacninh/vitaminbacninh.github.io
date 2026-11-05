@@ -142,12 +142,39 @@ tbody tr:last-child td{border-bottom:0}
 .feat{grid-template-columns:repeat(4,minmax(0,1fr))}
 @media (max-width:900px){.feat{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:520px){.feat{grid-template-columns:1fr}}
+/* Lưới logo đối tác: có file logo thì hiện ảnh, chưa có thì hiện ô tên đồng bộ */
+.logos{list-style:none;margin:0 0 20px;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,150px),1fr));gap:12px}
+.lg{display:grid;place-items:center;min-height:84px;padding:14px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.lg img{max-width:100%;max-height:48px;object-fit:contain}
+.lg-txt{background:var(--panel)}
+.lg-txt span{font-weight:600;font-size:.95rem;text-align:center;line-height:1.3;color:var(--ink)}
+.sec.alt .lg-txt{background:var(--bg)}
+.lg-group{margin-top:28px}.lg-group h3{margin-bottom:12px;color:var(--muted);font-size:.95rem;text-transform:uppercase;letter-spacing:.05em}
+/* Tuyển dụng */
+.jobs{display:grid;gap:20px}
+.job{padding:24px;border:1px solid var(--line);border-radius:14px;background:var(--panel);display:grid;gap:10px}
+.job h3{font-size:1.3rem}.job p{margin:0}
+.job h4{margin:0 0 4px;font-size:.95rem}
+.job-meta{color:var(--citrus-ink);font-weight:600;font-size:.9rem}
+.job-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:8px 24px}
+.job-cols .list{margin:0}
+.job-pay{padding:12px 14px;border-radius:10px;background:var(--bg)}
+.apply{display:grid;gap:14px}
+.apply label{display:grid;gap:6px;font-weight:600;font-size:.95rem}
+.apply input,.apply select,.apply textarea{font:inherit;font-weight:400;padding:.65em .8em;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--ink);width:100%}
+.apply input:focus-visible,.apply select:focus-visible,.apply textarea:focus-visible{outline:2px solid var(--citrus);outline-offset:1px}
+.apply-act{display:flex;gap:12px;flex-wrap:wrap}
+.apply button{cursor:pointer;font:inherit;font-weight:600}
+.err{margin:0;color:#c0392b;font-weight:600}
+.svc3{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:820px){.svc3{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.svc3{grid-template-columns:1fr}}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": ["LocalBusiness", "ProfessionalService"], "@id": "https://vitaminbacninh.github.io/#org", "name": "Vitamin Bắc Ninh", "legalName": "Công ty Cổ phần Vitamin Bắc Ninh", "taxID": "0111272601", "url": "https://vitaminbacninh.github.io/", "telephone": "+84389799192", "description": "Vitamin Bắc Ninh vận hành hệ thống 18 kênh review TikTok, Facebook, YouTube tại Bắc Ninh, nhận booking review quán ăn, cửa hàng, booking KOL/KOC, xây kênh và sản xuất video quảng cáo.", "address": {"@type": "PostalAddress", "streetAddress": "Số 118 Phương Vỹ, phường Vũ Ninh", "addressRegion": "Bắc Ninh", "addressCountry": "VN"}, "areaServed": ["Bắc Ninh", "Từ Sơn", "Tiên Du", "Yên Phong", "Quế Võ", "Việt Yên"], "priceRange": "800.000đ – 40.000.000đ", "sameAs": ["https://www.tiktok.com/@thodia.bn", "https://www.youtube.com/@Thodiabacninh", "https://www.facebook.com/Thodiabacninh99/", "https://www.tiktok.com/@bacninhangii"]}</script>
 </head><body>
 <header class="top"><div class="wrap top-in">
 <a class="logo" href="index.html"><span class="dot" aria-hidden="true"></span>Vitamin <b>Bắc Ninh</b></a>
-<nav aria-label="Menu chính"><a href="index.html">Trang chủ</a><a href="bang-gia.html">Bảng giá</a><a href="he-thong-kenh.html">Hệ thống kênh</a><a href="khach-hang.html">Khách hàng</a><a href="lien-he.html" aria-current="page">Liên hệ</a></nav>
+<nav aria-label="Menu chính"><a href="index.html">Trang chủ</a><a href="bang-gia.html">Bảng giá</a><a href="he-thong-kenh.html">Hệ thống kênh</a><a href="khach-hang.html">Khách hàng</a><a href="tuyen-dung.html">Tuyển dụng</a><a href="lien-he.html" aria-current="page">Liên hệ</a></nav>
 <a class="btn btn-sm" href="https://zalo.me/0389799192" rel="noopener">Zalo 0389 799 192</a>
 </div></header>
 <main><section class="pagehead"><div class="wrap">
@@ -167,6 +194,6 @@ tbody tr:last-child td{border-bottom:0}
 <footer class="foot"><div class="wrap foot-in">
 <div><p class="logo">Vitamin <b>Bắc Ninh</b></p><p>Hệ thống 18 kênh review TikTok, Facebook, YouTube tại Bắc Ninh.</p></div>
 <div><p><b>Công ty Cổ phần Vitamin Bắc Ninh</b></p><p>MST: 0111272601</p><p>Số 118 Phương Vỹ, phường Vũ Ninh, tỉnh Bắc Ninh</p><p>Hotline/Zalo: <a href="tel:+84389799192">0389 799 192</a></p></div>
-<div><p><b>Dịch vụ</b></p><p><a href="bang-gia.html">Booking review Bắc Ninh</a></p><p><a href="bang-gia.html#goi">Gói truyền thông nhiều kênh</a></p><p><a href="he-thong-kenh.html">Danh sách kênh review</a></p></div>
-</div><p class="wrap fine">Cập nhật 04/11/2026. Bảng giá chưa gồm VAT.</p></footer>
+<div><p><b>Dịch vụ</b></p><p><a href="bang-gia.html">Booking review Bắc Ninh</a></p><p><a href="bang-gia.html#goi">Gói truyền thông nhiều kênh</a></p><p><a href="he-thong-kenh.html">Danh sách kênh review</a></p><p><a href="tuyen-dung.html">Tuyển dụng</a></p></div>
+</div><p class="wrap fine">Cập nhật 05/11/2026. Bảng giá chưa gồm VAT.</p></footer>
 </body></html>
